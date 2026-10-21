@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Lapor Masyarakat</title>
+    <style>
+        /* === CSS MURNI - TEMA MODERN BIRU & PUTIH === */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        :root {
+            /* Palette Warna */
+            --primary: #0F4C81; /* Classic Blue */
+            --primary-hover: #1E3A8A;
+            --secondary: #E0F2FE; /* Light Blue */
+            --accent: #3B82F6; /* Bright Blue */
+            --bg-body: #F8FAFC;
+            --surface: #FFFFFF;
+            
+            /* Text */
+            --text-dark: #0F172A;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            
+            /* Status */
+            --status-menunggu: #F59E0B;
+            --status-diproses: #3B82F6;
+            --status-selesai: #10B981;
+            
+            /* Shadow */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+            
+            --radius: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigasi Utama */
+        header {
+            background-color: var(--surface);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+        }
+
+        .btn-admin {
+            background-color: var(--secondary);
+            color: var(--primary);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-admin:hover, .btn-admin.active {
+            background-color: var(--primary);
+            color: var(--surface);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Container & Sections */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: var(--surface);
+            border-radius: var(--radius);
+            margin-top: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            opacity: 0.9;
+        }
+
+        /* Formulir */
+        .form-card {
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: var(--bg-body);
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background-color: var(--surface);
+            box-shadow: 0 0 0 4px var(--secondary);
+        }
+
+        .btn-submit {
+            background-color: var(--accent);
+            color: var(--surface);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Filter & List Laporan */
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--surface);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .filter-controls select {
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-body);
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .laporan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .card-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            background: var(--bg-body);
+            padding: 0.8rem;
+            border-radius: 6px;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            flex: 1;
+        }
+
+        /* Admin Section */
+        .admin-view {
+            display: none; /* Disembunyikan secara default */
+            padding: 2rem 0;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 1rem;
+        }
+
+        .table-responsive {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 1.2rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .admin-table th {
+            background-color: var(--bg-body);
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .admin-table tbody tr:hover {
+            background-color: var(--secondary);
+        }
+
+        .table-img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .select-status {
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: 2px solid;
+            font-weight: 700;
+            background: var(--surface);
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* Toast Notifikasi */
+        .toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--text-dark);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow-lg);
+            transition: bottom 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 9999;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            bottom: 40px;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigasi -->
+    <header>
+        <div class="nav-container">
+            <div class="logo" onclick="navigateTo('beranda')">
+                🛡️ LaporWarga
+            </div>
+            <nav id="mainNav">
+                <a class="nav-link active" onclick="navigateTo('beranda')">Beranda</a>
+                <a class="nav-link" onclick="navigateTo('form')">Form Laporan</a>
+                <a class="nav-link" onclick="navigateTo('laporan')">Daftar Laporan</a>
+                <button class="btn-admin" onclick="navigateTo('admin')">Admin Panel</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- ================= BAGIAN PUBLIK ================= -->
+        <div id="viewPublic">
+            
+            <!-- Beranda / Hero -->
+            <section id="section-beranda" class="hero">
+                <h1>Sistem Informasi Laporan Masyarakat</h1>
+                <p>Wadah aspirasi dan pelaporan masalah di lingkungan sekitar Anda. Privasi nama Anda dijamin aman. Mari bersama ciptakan lingkungan yang lebih baik.</p>
+            </section>
+
+            <!-- Form Laporan -->
+            <section id="section-form">
+                <div class="form-card">
+                    <h2 class="section-title">Buat Laporan Baru</h2>
+                    <form id="formLaporan">
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label>Nama Lengkap (Akan disensor di publik)</label>
+                                <input type="text" id="namaPelapor" placeholder="Contoh: Budi Santoso" required>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label>Judul Laporan</label>
+                                <input type="text" id="judulLaporan" placeholder="Contoh: Jalan Berlubang di RT 05" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Kategori Masalah</label>
+                                <select id="kategoriLaporan" required>
+                                    <option value="" disabled selected>-- Pilih Kategori --</option>
+                                    <option value="Infrastruktur">Infrastruktur & Jalan</option>
+                                    <option value="Kebersihan">Kebersihan & Sampah</option>
+                                    <option value="Keamanan">Keamanan & Ketertiban</option>
+                                    <option value="Sosial">Bantuan Sosial</option>
+                                    <option value="Lainnya">Lain-lain</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Lokasi Kejadian</label>
+                                <input type="text" id="lokasiKejadian" placeholder="Detail jalan/area..." required>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Upload Foto Bukti</label>
+                                <input type="file" id="gambarBukti" accept="image/*" required>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Deskripsi Laporan</label>
+                                <textarea id="deskripsiLaporan" rows="4" placeholder="Jelaskan secara detail masalah yang terjadi..." required></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-submit">Kirim Laporan Sekarang</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Daftar Laporan -->
+            <section id="section-laporan">
+                <h2 class="section-title">Informasi & Laporan Terbaru</h2>
+                
+                <div class="filter-bar">
+                    <div style="font-weight: 600; color: var(--text-muted);">
+                        Total Laporan: <span id="totalLaporanText" style="color: var(--primary);">0</span>
+                    </div>
+                    <div class="filter-controls">
+                        <select id="filterStatus" onchange="renderPublicList()">
+                            <option value="Semua">Semua Status</option>
+                            <option value="Menunggu">Status: Menunggu</option>
+                            <option value="Diproses">Status: Diproses</option>
+                            <option value="Selesai">Status: Selesai</option>
+                        </select>
+                        <select id="filterUrutan" onchange="renderPublicList()">
+                            <option value="Terbaru">Urut: Terbaru</option>
+                            <option value="Terlama">Urut: Terlama</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="laporan-grid" id="laporanGrid">
+                    <!-- Kartu Laporan Dirender via JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= BAGIAN ADMIN ================= -->
+        <div id="viewAdmin" class="admin-view">
+            <div class="admin-header">
+                <div>
+                    <h2 style="color: var(--primary); font-size: 2rem;">Dashboard Admin</h2>
+                    <p style="color: var(--text-muted);">Kelola laporan warga, lihat nama asli, dan perbarui status.</p>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Bukti</th>
+                            <th>Tanggal & Waktu</th>
+                            <th>Pelapor (Asli)</th>
+                            <th>Detail Laporan</th>
+                            <th>Lokasi</th>
+                            <th>Status Penanganan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                        <!-- Baris Tabel Admin Dirender via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toastIcon">✅</span> <span id="toastMsg">Pesan Notifikasi</span>
+    </div>
+
+    <!-- JAVASCRIPT MURNI -->
+    <script>
+        // 1. Database Dummy Awal
+        let dataLaporan = [
+            {
+                id: 1700000000001,
+                nama: "Ahmad Fajar",
+                judul: "Tumpukan Sampah di Pinggir Sungai",
+                kategori: "Kebersihan",
+                lokasi: "Jembatan Merah Barat",
+                deskripsi: "Warga membuang sampah sembarangan di bantaran sungai, menimbulkan bau tidak sedap dan menyumbat aliran air.",
+                tanggal: new Date(Date.now() - 86400000), // Kemarin
+                status: "Diproses",
+                gambar: "https://placehold.co/600x400/0F4C81/FFFFFF?text=Ilustrasi+Sampah"
+            },
+            {
+                id: 1700000000002,
+                nama: "Ratna Sari",
+                judul: "Pohon Tumbang Menutupi Jalan",
+                kategori: "Infrastruktur",
+                lokasi: "Jl. Diponegoro KM 2",
+                deskripsi: "Pohon besar tumbang akibat angin kencang semalam, jalan tidak bisa dilewati kendaraan roda empat.",
+                tanggal: new Date(), // Hari ini
+                status: "Menunggu",
+                gambar: "https://placehold.co/600x400/3B82F6/FFFFFF?text=Ilustrasi+Pohon+Tumbang"
+            }
+        ];
+
+        // 2. Fungsi Sensor Nama (Privasi)
+        function censorName(fullName) {
+            if (!fullName) return "Anonim";
+            let words = fullName.split(" ");
+            let censoredWords = words.map(word => {
+                if (word.length <= 2) return word; 
+                return word[0] + "*".repeat(word.length - 2) + word[word.length - 1];
+            });
+            return censoredWords.join(" ");
+        }
+
+        // 3. Sistem Navigasi (SPA & Smooth Scroll)
+        function navigateTo(target) {
+            const viewPublic = document.getElementById('viewPublic');
+            const viewAdmin = document.getElementById('viewAdmin');
+            const navLinks = document.querySelectorAll('.nav-link, .btn-admin');
+
+            // Reset UI Navigasi
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            if (target === 'admin') {
+                viewPublic.style.display = 'none';
+                viewAdmin.style.display = 'block';
+                document.querySelector('.btn-admin').classList.add('active');
+                renderAdminList();
+            } else {
+                viewPublic.style.display = 'block';
+                viewAdmin.style.display = 'none';
+                
+                // Set Active Link
+                if(target === 'beranda') navLinks[0].classList.add('active');
+                if(target === 'form') navLinks[1].classList.add('active');
+                if(target === 'laporan') navLinks[2].classList.add('active');
+
+                // Smooth Scroll ke Section
+                if (target === 'beranda') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (target === 'form') {
+                    document.getElementById('section-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else if (target === 'laporan') {
+                    document.getElementById('section-laporan').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                
+                renderPublicList();
+            }
+        }
+
+        // 4. Render UI Publik (Kartu Laporan)
+        function renderPublicList() {
+            const grid = document.getElementById('laporanGrid');
+            const filterStatus = document.getElementById('filterStatus').value;
+            const filterUrutan = document.getElementById('filterUrutan').value;
+
+            grid.innerHTML = ''; 
+
+            let filtered = dataLaporan.filter(item => filterStatus === 'Semua' || item.status === filterStatus);
+            
+            filtered.sort((a, b) => filterUrutan === 'Terbaru' ? b.tanggal - a.tanggal : a.tanggal - b.tanggal);
+
+            document.getElementById('totalLaporanText').innerText = filtered.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted); background: var(--surface); border-radius: var(--radius);">Tidak ada laporan yang sesuai kriteria.</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                let color = 'var(--status-menunggu)';
+                if (item.status === 'Diproses') color = 'var(--status-diproses)';
+                if (item.status === 'Selesai') color = 'var(--status-selesai)';
+
+                let tgl = item.tanggal.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                let namaTersensor = censorName(item.nama);
+
+                const cardHTML = `
+                    <div class="card">
+                        <img src="${item.gambar}" alt="Bukti" class="card-img">
+                        <div class="card-body">
+                            <div class="card-header">
+                                <span class="badge" style="background-color: ${color}">${item.status}</span>
+                                <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">${item.kategori}</span>
+                            </div>
+                            <h3 class="card-title">${item.judul}</h3>
+                            <div class="card-meta">
+                                📍 ${item.lokasi} <br>
+                                👤 Pelapor: <strong style="color: var(--primary);">${namaTersensor}</strong> <br>
+                                📅 ${tgl}
+                            </div>
+                            <p class="card-desc">${item.deskripsi}</p>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        // 5. Render UI Admin (Tabel Laporan)
+        function renderAdminList() {
+            const tbody = document.getElementById('adminTableBody');
+            tbody.innerHTML = ''; 
+
+            let sortedData = [...dataLaporan].sort((a, b) => b.tanggal - a.tanggal);
+
+            if (sortedData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Belum ada data laporan masuk.</td></tr>`;
+                return;
+            }
+
+            sortedData.forEach(item => {
+                let tgl = item.tanggal.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour:'2-digit', minute:'2-digit' });
+                
+                let color = 'var(--status-menunggu)';
+                if (item.status === 'Diproses') color = 'var(--status-diproses)';
+                if (item.status === 'Selesai') color = 'var(--status-selesai)';
+
+                const rowHTML = `
+                    <tr>
+                        <td><img src="${item.gambar}" class="table-img" alt="Bukti"></td>
+                        <td><span style="font-size: 0.9rem;">${tgl}</span><br><small style="color:var(--text-muted)">ID: #${item.id}</small></td>
+                        <td><strong style="color: var(--primary);">${item.nama}</strong></td>
+                        <td>
+                            <strong>${item.judul}</strong><br>
+                            <small style="color: var(--text-muted);">${item.kategori}</small>
+                        </td>
+                        <td style="font-size: 0.9rem;">${item.lokasi}</td>
+                        <td>
+                            <select class="select-status" onchange="ubahStatus(${item.id}, this.value)" style="color: ${color}; border-color: ${color};">
+                                <option value="Menunggu" ${item.status === 'Menunggu' ? 'selected' : ''}>Menunggu</option>
+                                <option value="Diproses" ${item.status === 'Diproses' ? 'selected' : ''}>Diproses</option>
+                                <option value="Selesai" ${item.status === 'Selesai' ? 'selected' : ''}>Selesai</option>
+                            </select>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += rowHTML;
+            });
+        }
+
+        // 6. Fungsi Ubah Status (Admin)
+        window.ubahStatus = function(id, statusBaru) {
+            const idx = dataLaporan.findIndex(i => i.id === id);
+            if (idx !== -1) {
+                dataLaporan[idx].status = statusBaru;
+                tampilkanToast(`Status laporan #${id} diperbarui menjadi ${statusBaru}!`);
+                renderAdminList(); // Update warna border select seketika
+            }
+        };
+
+        // 7. Penanganan Form & Upload Gambar (FileReader)
+        document.getElementById('formLaporan').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const fileInput = document.getElementById('gambarBukti');
+            
+            // Proses simpan data
+            const prosesSimpan = (urlFoto) => {
+                const laporanBaru = {
+                    id: Date.now(),
+                    nama: document.getElementById('namaPelapor').value,
+                    judul: document.getElementById('judulLaporan').value,
+                    kategori: document.getElementById('kategoriLaporan').value,
+                    lokasi: document.getElementById('lokasiKejadian').value,
+                    deskripsi: document.getElementById('deskripsiLaporan').value,
+                    tanggal: new Date(),
+                    status: "Menunggu",
+                    gambar: urlFoto
+                };
+
+                dataLaporan.unshift(laporanBaru); // Masukkan ke awal array
+                this.reset(); // Reset isi form
+                
+                tampilkanToast("✅ Laporan berhasil dikirim!");
+                
+                // Render & Navigasi otomatis ke daftar laporan
+                renderPublicList();
+                document.getElementById('filterStatus').value = 'Semua';
+                document.getElementById('filterUrutan').value = 'Terbaru';
+                navigateTo('laporan'); 
+            };
+
+            // Baca file gambar
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    prosesSimpan(event.target.result); // Base64 URL
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        });
+
+        // 8. Fungsi Notifikasi Toast
+        function tampilkanToast(pesan) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = pesan;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 9. Inisialisasi Pertama Kali
+        window.onload = () => {
+            renderPublicList();
+        };
+    </script>
+</body>
+</html>
